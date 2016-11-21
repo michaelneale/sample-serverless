@@ -3,12 +3,16 @@ pipeline {
 	
 	stages {
 		stage('Unit test') {
-			sh 'serverless --help' // to ensure it is installed
+			steps {				
+ 			    sh 'serverless --help' // to ensure it is installed
+			}
 		}			
 		
 		stage('Integration test') {
-			sh 'serverless deploy --stage dev'
-			sh 'serverless invoke --stage dev --function hello'
+			steps {
+				sh 'serverless deploy --stage dev'
+				sh 'serverless invoke --stage dev --function hello'					
+			}
 		}
 				
 		
@@ -29,8 +33,10 @@ pipeline {
 		}
 		
 		stage('Teardown') {
-			echo 'No need for DEV environment now, tear it down'
-		  	sh 'serverless remove --stage dev'	
+			steps {				
+				echo 'No need for DEV environment now, tear it down'
+				sh 'serverless remove --stage dev'	
+			}
 		}
 	 
 	 }
