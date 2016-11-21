@@ -1,15 +1,16 @@
 pipeline {
-	 agent label:'master'
+	 agent any
+	 
 	 stages {
 	 	stage('deploy') {
-		 	withCredentials([[$class: 'UsernamePasswordMultiBinding', 
-		 		    credentialsId: 'amazon',
-	                            usernameVariable: 'AWS_ACCESS_KEY_ID', 
-	                            passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-			      sh 'serverless deploy'	                            	
-	            	}
+			    sh 'serverless deploy'	                            	
 		}
 	 
+	 }
+	 
+	 environment {
+	 		AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+			AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 	 }
 
 }
